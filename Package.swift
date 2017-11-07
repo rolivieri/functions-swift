@@ -27,13 +27,11 @@ let package = Package(
         targets:  ["Action"]
       )
     ],
-    dependencies: [
-        .package(url: "https://github.com/IBM-Swift/SwiftyJSON.git", .upToNextMajor(from: "17.0.0")),
-    ],
+    dependencies: [ ],
     targets: [
       .target(
         name: "Action",
-        dependencies: ["SwiftyJSON"]
+        dependencies: []
       )
     ]
 )
