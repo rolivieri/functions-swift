@@ -20,7 +20,7 @@ func main_codable(input: Employee, respondWith: (Employee?, Error?) -> Void) -> 
 }
 
 public typealias CodableResult<Out: Codable> = (Out?, Error?) -> Void
-public typealias MainFunction<In: Codable, Out: Codable> = (In, CodableResult<Out>) -> Void
+public typealias MainCodableFunction<In: Codable, Out: Codable> = (In, CodableResult<Out>) -> Void
 
 func _run_main(mainFunction: ([String: Any]) -> [String: Any]) -> Void {
     print("Using traditional style for invoking action...")
@@ -28,7 +28,7 @@ func _run_main(mainFunction: ([String: Any]) -> [String: Any]) -> Void {
     let _ = mainFunction(parsed)
 }
 
-func _run_main<In: Codable, Out: Codable>(mainFunction: MainFunction<In, Out>) {
+func _run_main<In: Codable, Out: Codable>(mainFunction: MainCodableFunction<In, Out>) {
      print("Using codable style for invoking action...")
 
 let json = """
