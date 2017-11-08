@@ -67,3 +67,15 @@ func _run_main<In: Codable, Out: Codable>(mainFunction: CodableClosure<In, Out>)
 // wants to use traditional vs codable
 _run_main(mainFunction:main_traditional)
 _run_main(mainFunction:main_codable)
+
+//Just testing error extension
+//An extension does not allow overriding methods and properties,
+//Which is getting in the way of computing the reason value for custom error codes
+let error = RequestError.customError1
+let reason = error.reason
+let desc = error.description
+print("------------------------------------------------")
+print(error)
+print(reason)
+print(desc)
+print("------------------------------------------------")
