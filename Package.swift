@@ -27,11 +27,13 @@ let package = Package(
         targets:  ["Action"]
       )
     ],
-    dependencies: [ ],
+    dependencies: [
+      .package(url: "https://github.com/IBM-Swift/KituraContracts.git", .upToNextMinor(from: "0.0.14"))
+    ],
     targets: [
       .target(
         name: "Action",
-        dependencies: []
+        dependencies: ["KituraContracts"]
       )
     ]
 )
