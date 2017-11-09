@@ -71,6 +71,7 @@ _run_main(mainFunction:main_codable)
 //Just testing error extension
 //An extension does not allow overriding methods and properties,
 //Which is getting in the way of computing the reason value for custom error codes
+//May need to change the implementation we currently have in KituraContracts
 let error = RequestError.customError1
 let reason = error.reason
 let desc = error.description
