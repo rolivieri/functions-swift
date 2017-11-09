@@ -26,10 +26,23 @@ func main_traditional(args: [String:Any]) -> [String:Any] {
     }
 }
 
-// codable main function
-func main_codable(input: Employee, respondWith: (Employee?, RequestError?) -> Void) -> Void {
+// codable main function (async)
+func main_codable_async(input: Employee, respondWith: (Employee?, RequestError?) -> Void) -> Void {
     // For simplicity, just passing same Employee instance forward
     respondWith(input, nil)
+}
+
+// codable main function (async)
+func main_codable_async_vanilla(input: Employee, respondWith: (Employee?, Error?) -> Void) -> Void {
+    // For simplicity, just passing same Employee instance forward
+    respondWith(input, nil)
+}
+
+
+// codable main function (sync)
+func main_codable_sync(input: Employee) -> Employee {
+    // For simplicity, just returning back the same Employee instance
+    return input
 }
 
 // snippet of code "injected" (wrapper code for invoking traditional main)
@@ -42,10 +55,10 @@ func _run_main(mainFunction: ([String: Any]) -> [String: Any]) -> Void {
     print("------------------------------------------------")
 }
 
-// snippet of code "injected" (wrapper code for invoking codable main)
+// snippet of code "injected" (wrapper code for invoking codable main - async)
 func _run_main<In: Codable, Out: Codable>(mainFunction: CodableClosure<In, Out>) {
     print("------------------------------------------------")
-    print("Using codable style for invoking action...")
+    print("Using codable style for invoking action (async style)...")
 
     guard let input = try? JSONDecoder().decode(In.self, from: json) else {
         print("Something went really wrong...")
@@ -63,10 +76,48 @@ func _run_main<In: Codable, Out: Codable>(mainFunction: CodableClosure<In, Out>)
     print("------------------------------------------------")
 }
 
+// snippet of code "injected" (wrapper code for invoking codable main - async - vanilla)
+func _run_main<In: Codable, Out: Codable>(mainFunction: (In, (Out?, Error?) -> Void) -> Void) {
+    print("------------------------------------------------")
+    print("Using codable style for invoking action (async style - vanilla)...")
+
+    guard let input = try? JSONDecoder().decode(In.self, from: json) else {
+        print("Something went really wrong...")
+        return
+    }
+
+    let resultHandler = { (out: Out?, error: Error?) in
+        if let out = out {
+            print("Received output: \(out)")
+        }
+    }
+    
+    let _ = mainFunction(input, resultHandler)
+
+    print("------------------------------------------------")
+}
+
+// snippet of code "injected" (wrapper code for invoking codable main - sync - vanilla)
+func _run_main<In: Codable, Out: Codable>(mainFunction: (In) -> Out) -> Void {
+print("------------------------------------------------")
+    print("Using codable style for invoking action (sync style - vanilla)...")
+
+    guard let input = try? JSONDecoder().decode(In.self, from: json) else {
+        print("Something went really wrong...")
+        return
+    }
+
+    let result = mainFunction(input)
+    print("Result (codable main sync): \(result)")
+    print("------------------------------------------------")
+}
+
 // snippets of code "injected", dependending on the type of function the developer 
 // wants to use traditional vs codable
 _run_main(mainFunction:main_traditional)
-_run_main(mainFunction:main_codable)
+_run_main(mainFunction:main_codable_async)
+_run_main(mainFunction:main_codable_async_vanilla)
+_run_main(mainFunction:main_codable_sync)
 
 //Just testing error extension
 //An extension does not allow overriding methods and properties,
