@@ -7,7 +7,7 @@ extension RequestError {
      /// An initializer to set up the client error codes.
     /// - Parameter clientErrorCode: The custom error code for the client.
     init(clientErrorCode: Int, reason: String) {
-        self.init(clientErrorCode: clientErrorCode, reason: reason)
+        self.init(rawValue: clientErrorCode, reason: reason)
     }
        
     public static var customError1 = RequestError(clientErrorCode: 900, reason: "Invalid XYZ")

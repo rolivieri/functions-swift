@@ -28,7 +28,7 @@ let package = Package(
       )
     ],
     dependencies: [
-      .package(url: "https://github.com/IBM-Swift/KituraContracts.git", .upToNextMinor(from: "0.0.14"))
+      .package(url: "https://github.com/IBM-Swift/KituraContracts.git", .upToNextMinor(from: "0.0.15"))
     ],
     targets: [
       .target(
